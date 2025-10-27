@@ -4,6 +4,7 @@ import { z } from "zod";
 const envSchema = z.object({
   PORT: z.string().min(1),
   DATABASE_URL: z.string().min(1),
+  BCRYPT_SALT_ROUNDS: z.coerce.number().default(10),
 });
 
 type EnvType = z.infer<typeof envSchema>;
