@@ -1,0 +1,1 @@
+ALTER TABLE "produtos" ALTER COLUMN "descricao" SET NOT NULL;
