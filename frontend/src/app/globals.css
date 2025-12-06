@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 98%;
+  --foreground: 0 0% 10%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+
+  --primary: 0 85% 45%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 0 0% 95%;
+  --muted-foreground: 0 0% 45%;
+
+  --accent: 0 85% 55%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 0 0% 90%;
+  --input: 0 0% 90%;
+  --ring: 0 85% 45%;
+
+  --radius: 0.5rem;
+
+  --sidebar-background: 0 0% 100%;
+  --sidebar-foreground: 0 0% 10%;
+  --sidebar-primary: 0 85% 45%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 95%;
+  --sidebar-accent-foreground: 0 0% 10%;
+  --sidebar-border: 0 0% 90%;
+  --sidebar-ring: 0 85% 45%;
+
+  /* E-commerce specific tokens */
+  --success: 142 76% 36%;
+  --success-foreground: 0 0% 100%;
+  --warning: 45 93% 47%;
+  --warning-foreground: 0 0% 100%;
+  --price: 0 85% 45%;
+  --shadow-card: 0 0% 0% / 0.1;
+  --sale: 0 100% 50%;
+  --sale-foreground: 0 0% 100%;
+}
+
+.dark {
+  --background: 0 0% 8%;
+  --foreground: 0 0% 95%;
+
+  --card: 0 0% 12%;
+  --card-foreground: 0 0% 95%;
+
+  --popover: 0 0% 12%;
+  --popover-foreground: 0 0% 95%;
+
+  --primary: 0 85% 50%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 0% 18%;
+  --secondary-foreground: 0 0% 95%;
+
+  --muted: 0 0% 18%;
+  --muted-foreground: 0 0% 60%;
+
+  --accent: 0 85% 55%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 0 85% 50%;
+
+  --sidebar-background: 0 0% 12%;
+  --sidebar-foreground: 0 0% 95%;
+  --sidebar-primary: 0 85% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 18%;
+  --sidebar-accent-foreground: 0 0% 95%;
+  --sidebar-border: 0 0% 20%;
+  --sidebar-ring: 0 85% 50%;
+
+  --success: 142 76% 36%;
+  --success-foreground: 0 0% 100%;
+  --warning: 45 93% 47%;
+  --warning-foreground: 0 0% 100%;
+  --price: 0 85% 50%;
+  --shadow-card: 0 0% 0% / 0.4;
+  --sale: 0 100% 55%;
+  --sale-foreground: 0 0% 100%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}

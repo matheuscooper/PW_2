@@ -1,18 +1,9 @@
-import {
-  pgTable,
-  uuid,
-  varchar,
-  text,
-  numeric,
-  integer,
-  uniqueIndex,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text, numeric, integer, uniqueIndex, timestamp } from "drizzle-orm/pg-core";
 import { categorySchema } from "./category.schema";
 import { relations } from "drizzle-orm";
 
 export const productSchema = pgTable(
-  "produtos",
+  "Product",
   {
     id: uuid("id").defaultRandom().primaryKey(),
     nome: varchar("nome", { length: 120 }).notNull(),

@@ -27,4 +27,6 @@ export interface IProductsRepository {
   findById(envs: EnvType, id: string): Promise<Product | null>;
   findByNome(envs: EnvType, nome: string): Promise<Product | null>;
   list(envs: EnvType, params?: ListProductsParams): Promise<ListProductsResult>;
+  listProduct(envs: EnvType): Promise<any[]>;
+  listProductCard(envs: EnvType): Promise<any[]>;
 }

@@ -1,9 +1,20 @@
 import { Router, Request, Response } from "express";
-import { createClientControllerFactory } from "../useCases/createdClient";
-import { resolve } from "path";
+import { createUserControllerFactory } from "../useCases/createdUser";
+import { loginControllerFactory } from "../useCases/loginClients";
+import { UsersRepository } from "../repositories/implementations/user.drizzle.repository";
+import { updateUserControllerFactory } from "../useCases/updateUser";
+import { EnvType } from "../config/env";
 
-export const clientsRoutes = Router();
+export const userRoutes = Router();
 
-clientsRoutes.post("/clients", (req: Request, res: Response) => {
-  return createClientControllerFactory.handle(req, res);
+userRoutes.post("/auth/register", (req: Request, res: Response) => {
+  return createUserControllerFactory.handle(req, res);
+});
+
+userRoutes.post("/auth/login", (req, res) => {
+  return loginControllerFactory.handle(req, res);
+});
+
+userRoutes.put("/auth/update", (req: Request, res: Response) => {
+  return updateUserControllerFactory.handle(req, res);
 });

@@ -1,5 +1,6 @@
 import { eq, or, and, InferInsertModel, InferSelectModel, ilike, sql } from "drizzle-orm";
 import { productSchema } from "../../database/schemas/product.schema";
+import { categorySchema } from "../../database/schemas/category.schema";
 import { Product } from "../../entities/product";
 import { IProductsRepository, ListProductsParams, ListProductsResult, ProductPatch } from "../IProducts.repository";
 import { EnvType } from "../../config/env";
@@ -135,5 +136,59 @@ export class ProductsRepository implements IProductsRepository {
       page,
       perPage,
     };
+  }
+
+  async listProduct(envs: EnvType) {
+    const db = drizzle(envs.DATABASE_URL);
+
+    const rows = await db
+      .select({
+        id: productSchema.id,
+        nome: productSchema.nome,
+        preco: productSchema.preco,
+        estoque: productSchema.estoque,
+        categoria: {
+          id: categorySchema.id,
+          nome: categorySchema.nome,
+        },
+      })
+      .from(productSchema)
+      .innerJoin(categorySchema, eq(productSchema.categoriaId, categorySchema.id))
+      .orderBy(productSchema.createdAt);
+
+    return rows.map((row) => ({
+      id: row.id,
+      nome: row.nome,
+      preco: row.preco,
+      estoque: row.estoque,
+      categoria: row.categoria,
+    }));
+  }
+
+  async listProductCard(envs: EnvType): Promise<any[]> {
+    const db = drizzle(envs.DATABASE_URL);
+
+    const rows = await db
+      .select({
+        produto: productSchema,
+        categoria: categorySchema,
+      })
+      .from(productSchema)
+      .leftJoin(categorySchema, eq(productSchema.categoriaId, categorySchema.id));
+
+    return rows.map(({ produto, categoria }) => ({
+      id: produto.id,
+      nome: produto.nome,
+      descricao: produto.descricao,
+      preco: produto.preco.toString(),
+      estoque: produto.estoque,
+      categoriaId: produto.categoriaId,
+      categoria: categoria
+        ? {
+            id: categoria.id,
+            nome: categoria.nome,
+          }
+        : null,
+    }));
   }
 }

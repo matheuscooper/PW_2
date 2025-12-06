@@ -9,7 +9,8 @@
     // See also https://aka.ms/tsconfig/module
     "module": "esnext",
     "target": "es2022",
-    "types": [],
+    "types": ["node", "express-session"],
+    "typeRoots": ["./src/@types", "./node_modules/@types"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -22,7 +23,7 @@
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
+    "exactOptionalPropertyTypes": false,
 
     // Style Options
     // "noImplicitReturns": true,

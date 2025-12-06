@@ -5,6 +5,7 @@ const envSchema = z.object({
   PORT: z.string().min(1),
   DATABASE_URL: z.string().min(1),
   BCRYPT_SALT_ROUNDS: z.coerce.number().default(10),
+  JWT_SECRET: z.string().min(1),
 });
 
 type EnvType = z.infer<typeof envSchema>;
