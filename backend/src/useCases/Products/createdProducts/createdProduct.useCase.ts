@@ -37,7 +37,10 @@ export class CreateProductUseCase {
       preco: payload.preco,
       estoque: payload.estoque ?? 0,
       categoriaId,
+      isDeleted: "0",
     });
+
+    console.log("📨 [USECASE] Payload recebido antes do create:", payload);
 
     await this.productsRepository.save(envs, product);
 

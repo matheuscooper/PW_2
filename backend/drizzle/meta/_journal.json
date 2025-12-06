@@ -57,6 +57,20 @@
       "when": 1764833640485,
       "tag": "0007_funny_smiling_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1765038996574,
+      "tag": "0008_graceful_giant_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1765043634521,
+      "tag": "0009_dazzling_firebrand",
+      "breakpoints": true
     }
   ]
 }

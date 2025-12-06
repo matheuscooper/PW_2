@@ -13,6 +13,8 @@ export class CreatedProductController {
       const envs = await this.loadEnvs();
       const payload = req.body;
 
+      console.log("📨 [CONTROLLER] Payload recebido:", payload);
+
       const resultProduct = await this.createdProductUseCase.execute(envs, payload);
 
       const { product } = resultProduct;

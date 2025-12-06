@@ -23,10 +23,12 @@ export interface IProductsRepository {
   save(envs: EnvType, product: Product): Promise<void>;
   update(envs: EnvType, id: string, product: Product): Promise<void>;
   updatePartial(envs: EnvType, id: string, patch: ProductPatch): Promise<void>;
-  deleteById(envs: EnvType, id: string): Promise<void>;
+  softDelete(envs: EnvType, id: string): Promise<void>;
   findById(envs: EnvType, id: string): Promise<Product | null>;
   findByNome(envs: EnvType, nome: string): Promise<Product | null>;
+  findDeleted(envs: EnvType): Promise<any[]>;
   list(envs: EnvType, params?: ListProductsParams): Promise<ListProductsResult>;
   listProduct(envs: EnvType): Promise<any[]>;
   listProductCard(envs: EnvType): Promise<any[]>;
+  findMostExpensive(envs: EnvType, limit: number): Promise<any>;
 }

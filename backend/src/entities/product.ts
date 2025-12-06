@@ -9,6 +9,7 @@ export type ProductProps = {
   categoriaId: string;
   createdAt?: Date;
   updatedAt?: Date;
+  isDeleted: string;
 };
 
 export class Product {
@@ -28,6 +29,7 @@ export class Product {
     return new Product({
       id: id ?? uuidv7(),
       ...props,
+      isDeleted: props.isDeleted ?? "0",
     });
   }
 

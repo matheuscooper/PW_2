@@ -8,6 +8,7 @@ import { updateProductControllerFactory } from "../useCases/Products/updateProdu
 import { ensureAdmin } from "../middleware/ensureAdmin";
 import { isAdmin } from "../middleware/isAdmin";
 import { isAuthenticated } from "../middleware/isAuthenticated";
+import { offerProductsControllerFactory } from "../useCases/Products/offerProducts";
 
 export const productsRoutes = Router();
 
@@ -33,4 +34,8 @@ productsRoutes.delete("/:id", isAuthenticated, (req, res) => {
 
 productsRoutes.put("/:id", ensureAdmin, (req, res) => {
   return updateProductControllerFactory.handle(req, res);
+});
+
+productsRoutes.get("/offers/list", (req, res) => {
+  return offerProductsControllerFactory.handle(req, res);
 });

@@ -13,9 +13,10 @@ export class DeleteController {
   async handle(req: Request, res: Response): Promise<any> {
     try {
       const envs = await this.loadEnvs();
-      const idProduct = req.params.id;
+      const id = req.params.id;
+      console.log("Controler", id);
 
-      await this.deleteUseCase.execute(envs, idProduct);
+      await this.deleteUseCase.execute(envs, id);
 
       return res.json({ message: "Deletado" });
     } catch (err: any) {

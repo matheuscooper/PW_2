@@ -14,6 +14,13 @@ export interface Product {
   estoque?: number;
   categoriaId: string;
   categoria: Category;
+  isDeleted?: string;
+}
+
+export interface OfferProduct extends Product {
+  originalPrice: string;
+  discountedPrice: string;
+  discount: string;
 }
 
 export interface CreateProductDTO {
@@ -22,6 +29,7 @@ export interface CreateProductDTO {
   preco: string;
   estoque?: number;
   categoriaId: string;
+  isDeleted: string;
 }
 
 export interface User {
@@ -60,6 +68,7 @@ export interface PurchaseItem {
   productId: string;
   quantidade: number;
   precoUnitario: string;
+  nome: string;
   product?: Product;
 }
 
@@ -110,6 +119,16 @@ class ApiService {
     const response = await fetch(`${this.baseURL}/api/products/list-cards`);
     if (!response.ok) throw new Error("Erro ao buscar produtos");
     return response.json();
+  }
+
+  async getOfferProducts(): Promise<OfferProduct[]> {
+    const response = await fetch(`${this.baseURL}/api/products/offers/list`, {
+      credentials: "include",
+    });
+    const data = await response.json();
+    console.log("🔥 JSON final do backend:", data);
+
+    return data.offers;
   }
 
   async createProduct(data: CreateProductDTO) {

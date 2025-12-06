@@ -164,7 +164,11 @@ const PurchaseHistory = () => {
                           <div className="flex-1">
                             <p className="font-medium">
                               {item.product?.nome ||
-                                `Produto #${item.productId.slice(0, 8)}`}
+                                `Produto #${
+                                  item.nome ||
+                                  `Produto #${item.productId.slice(0, 8)}`
+                                }
+`}
                             </p>
                             <p className="text-sm text-muted-foreground">
                               Qtd: {item.quantidade} × R${" "}

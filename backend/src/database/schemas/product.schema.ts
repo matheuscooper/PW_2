@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, numeric, integer, uniqueIndex, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text, numeric, integer, uniqueIndex, timestamp, boolean } from "drizzle-orm/pg-core";
 import { categorySchema } from "./category.schema";
 import { relations } from "drizzle-orm";
 
@@ -14,6 +14,7 @@ export const productSchema = pgTable(
         onUpdate: "cascade",
       })
       .notNull(),
+    isDeleted: varchar("is_deleted", { length: 1 }).default("0").notNull(),
     preco: numeric("preco", { precision: 10, scale: 2 }).notNull(),
     estoque: integer("estoque").notNull().default(0),
     createdAt: timestamp("created_at").notNull().defaultNow(),

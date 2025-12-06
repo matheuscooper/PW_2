@@ -1,4 +1,4 @@
-import { eq, or, and, InferInsertModel, InferSelectModel, ilike, sql } from "drizzle-orm";
+import { eq, or, and, InferInsertModel, InferSelectModel, ilike, sql, desc } from "drizzle-orm";
 import { productSchema } from "../../database/schemas/product.schema";
 import { categorySchema } from "../../database/schemas/category.schema";
 import { Product } from "../../entities/product";
@@ -23,6 +23,7 @@ export class ProductsRepository implements IProductsRepository {
         categoriaId: product.categoriaId,
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
+        isDeleted: product.isDeleted,
       },
       product.id
     );
@@ -37,6 +38,7 @@ export class ProductsRepository implements IProductsRepository {
       preco: product.props.preco,
       estoque: product.props.estoque,
       categoriaId: product.props.categoriaId,
+      isDeleted: product.props.isDeleted,
       createdAt: product.props.createdAt,
       updatedAt: product.props.updatedAt,
     });
@@ -69,10 +71,12 @@ export class ProductsRepository implements IProductsRepository {
     await db.update(productSchema).set(updatePath).where(eq(productSchema.id, id));
   }
 
-  async deleteById(envs: EnvType, id: string): Promise<void> {
+  async softDelete(envs: EnvType, id: string): Promise<void> {
     const db = drizzle(envs.DATABASE_URL);
 
-    await db.delete(productSchema).where(eq(productSchema.id, id));
+    console.log(id);
+
+    await db.update(productSchema).set({ isDeleted: "1" }).where(eq(productSchema.id, id));
   }
 
   async findByNome(envs: EnvType, nome: string): Promise<Product | null> {
@@ -151,6 +155,7 @@ export class ProductsRepository implements IProductsRepository {
           id: categorySchema.id,
           nome: categorySchema.nome,
         },
+        isDeleted: productSchema.isDeleted,
       })
       .from(productSchema)
       .innerJoin(categorySchema, eq(productSchema.categoriaId, categorySchema.id))
@@ -162,7 +167,15 @@ export class ProductsRepository implements IProductsRepository {
       preco: row.preco,
       estoque: row.estoque,
       categoria: row.categoria,
+      isDeleted: row.isDeleted,
+      status: row.isDeleted === "1" ? "Indisponível" : "Ativo",
     }));
+  }
+
+  async findDeleted(envs: EnvType): Promise<any[]> {
+    const db = drizzle(envs.DATABASE_URL);
+
+    return db.select().from(productSchema).where(eq(productSchema.isDeleted, "1"));
   }
 
   async listProductCard(envs: EnvType): Promise<any[]> {
@@ -174,7 +187,8 @@ export class ProductsRepository implements IProductsRepository {
         categoria: categorySchema,
       })
       .from(productSchema)
-      .leftJoin(categorySchema, eq(productSchema.categoriaId, categorySchema.id));
+      .leftJoin(categorySchema, eq(productSchema.categoriaId, categorySchema.id))
+      .where(eq(productSchema.isDeleted, "0")); //FILTRA APENAS OS ATIVOS
 
     return rows.map(({ produto, categoria }) => ({
       id: produto.id,
@@ -190,5 +204,17 @@ export class ProductsRepository implements IProductsRepository {
           }
         : null,
     }));
+  }
+  async findMostExpensive(envs: EnvType, limit: number): Promise<any> {
+    const db = drizzle(envs.DATABASE_URL);
+
+    const rows = await db
+      .select()
+      .from(productSchema)
+      .where(eq(productSchema.isDeleted, "0"))
+      .orderBy(desc(productSchema.preco))
+      .limit(limit);
+
+    return rows;
   }
 }

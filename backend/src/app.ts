@@ -1,15 +1,26 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
+import FileStore from "session-file-store";
 import { userRoutes } from "./routes/clients.routes";
 import { productsRoutes } from "./routes/products.routes";
 import { categoryRoutes } from "./routes/category.routes";
 import purchaseRouter from "./routes/purchase.routes";
-import FileStore from "session-file-store";
 
 const app = express();
 
 const FileStoreSession = FileStore(session);
+
+app.use(
+  cors({
+    origin: "http://localhost:3000", // URL do frontend
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+app.use(express.json());
 
 app.use(
   session({
@@ -26,17 +37,6 @@ app.use(
       secure: false,
       sameSite: "lax",
     },
-  })
-);
-
-app.use(express.json());
-
-app.use(
-  cors({
-    origin: "http://localhost:3000", // URL do frontend
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
   })
 );
 

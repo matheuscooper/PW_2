@@ -9,16 +9,33 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { ArrowRight, Package, Tag, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { OfferProducts } from "@/views/product/list/OfferProduct";
 
 const Home = () => {
-  const { data: products, isLoading } = useQuery({
+  // Produtos gerais (para destaque e mais vendidos)
+  const { data: products, isLoading: isProductsLoading } = useQuery({
     queryKey: ["products-featured"],
     queryFn: api.getProducts,
   });
 
+  // Ofertas
+  // const {
+  //   data: offers,
+  //   isLoading: isOffersLoading,
+  //   error: offersError,
+  // } = useQuery({
+  //   queryKey: ["products-offers"],
+  //   queryFn: async () => {
+  //     console.log("🔥 Iniciando request GET /offers/list...");
+  //     const res = await api.getOfferProducts();
+  //     console.log("📦 Resposta bruta da API de ofertas:", res);
+
+  //     return res?.offers ?? [];
+  //   },
+  // });
+
   const featuredProducts = products?.slice(0, 4);
   const bestSellers = products?.slice(4, 8);
-  const deals = products?.slice(8, 12);
 
   return (
     <div className="min-h-screen bg-background">
@@ -30,7 +47,7 @@ const Home = () => {
       {/* Benefits */}
       <BenefitsSection />
 
-      {/* Ofertas Relâmpago */}
+      {/* Ofertas Relâmpago
       <section className="container mx-auto px-4 py-16">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
@@ -49,15 +66,15 @@ const Home = () => {
           </p>
         </div>
 
-        {isLoading ? (
+        {isOffersLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {Array.from({ length: 4 }).map((_, i) => (
               <ProductSkeleton key={i} />
             ))}
           </div>
-        ) : deals && deals.length > 0 ? (
+        ) : offers && offers.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {deals.map((product) => (
+            {offers.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
@@ -67,7 +84,8 @@ const Home = () => {
             <p>Nenhuma oferta disponível no momento</p>
           </div>
         )}
-      </section>
+      </section> */}
+      <OfferProducts limit={5} />
 
       {/* Produtos em Destaque */}
       <section className="container mx-auto px-4 py-16 bg-muted/30">
@@ -98,7 +116,7 @@ const Home = () => {
           </Button>
         </div>
 
-        {isLoading ? (
+        {isProductsLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {Array.from({ length: 4 }).map((_, i) => (
               <ProductSkeleton key={i} />
@@ -146,13 +164,13 @@ const Home = () => {
           </p>
         </div>
 
-        {isLoading ? (
+        {isProductsLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {Array.from({ length: 4 }).map((_, i) => (
               <ProductSkeleton key={i} />
             ))}
           </div>
-        ) : bestSellers && bestSellers.length > 0 ? (
+        ) : products && bestSellers && bestSellers.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {bestSellers.map((product) => (
               <ProductCard key={product.id} product={product} />
