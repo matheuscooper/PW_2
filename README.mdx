@@ -1,177 +1,31 @@
---- id: documentation title: Documentação — PW2 Shop --- # 🛒 Lojinha — Documentação Oficial Este documento explica **como executar a aplicação completa** (backend + frontend + PostgreSQL via Docker) e descreve de forma clara o **fluxo de cadastro de produtos**, incluindo o que acontece em cada camada (**controller → useCase → repository → banco**). --- # 🚀 Como rodar a aplicação A aplicação é dividida em três partes: - **Backend** — Node.js + Express + Drizzle ORM - **Frontend** — Next.js 16 - **Banco de Dados** — PostgreSQL via Docker Toda a stack sobe com **um único comando Docker Compose**. --- # 📦 1. Clonar o projeto
-bash
+---
+id: documentation
+title: Documentação — PW2 Shop
+---
+
+# 🛒 Lojinha — Documentação Oficial
+
+Este documento explica **como executar a aplicação completa** (backend + frontend + PostgreSQL via Docker)  
+e descreve de forma clara o **fluxo de cadastro de produtos**, incluindo o que acontece em cada camada  
+(**controller → useCase → repository → banco**).
+
+---
+
+# 🚀 Como rodar a aplicação
+
+A aplicação é dividida em três partes:
+
+- **Backend** — Node.js + Express + Drizzle ORM
+- **Frontend** — Next.js 16
+- **Banco de Dados** — PostgreSQL via Docker
+
+Toda a stack sobe com **um único comando Docker Compose**.
+
+---
+
+# 📦 1. Clonar o projeto
+
+```bash
 git clone https://github.com/seu-repo/pw2.git
 cd pw2
-
-🐳 2. Subir banco + backend + frontend
-sudo docker compose up -d --build
-
-Este comando:
-
-Cria o PostgreSQL
-
-Constrói e inicia o backend
-
-Constrói e inicia o frontend
-
-Acesse:
-
-Frontend: http://localhost:3000
-
-Backend: http://localhost:3333
-
-DB: localhost:5432
-
-🧱 Arquitetura — Fluxo de Produto
-
-Fluxo da criação de produto:
-
-Frontend → Controller → UseCase → Repository → Banco
-
-🟦 FLUXO COMPLETO — Criar Produto
-
-A seguir, você verá como funciona o fluxo inteiro de criação de produto, desde o formulário até o banco.
-
-1️⃣ FRONTEND (Next.js)
-
-O formulário de criação envia:
-
-const payload = {
-nome: data.nome,
-descricao: data.descricao,
-preco: data.preco,
-estoque: data.estoque,
-categoriaId: data.categoriaId
-};
-
-api.createProduct(payload);
-
-Chamando:
-
-POST /products
-Content-Type: application/json
-
-2️⃣ CONTROLLER
-
-Arquivo: CreateProductController.ts
-
-Recebe a requisição, valida e aciona o caso de uso.
-
-export class CreateProductController {
-  async handle(req, res) {
-    const { nome, descricao, preco, estoque, categoriaId } = req.body;
-
-    const createProduct = new CreateProductUseCase(productsRepository);
-
-    await createProduct.execute({
-      nome,
-      descricao,
-      preco,
-      estoque,
-      categoriaId
-    });
-
-    return res.status(201).json({ message: "Produto criado com sucesso" });
-
-}
-}
-
-3️⃣ USE CASE (Regra de Negócio)
-
-Arquivo: CreateProductUseCase.ts
-
-O useCase garante:
-
-Nome não duplicado
-
-Categoria existe
-
-Dados corretos para envio ao repositório
-
-export class CreateProductUseCase {
-  constructor(private productsRepository) {}
-
-async execute(payload) {
-const existing = await this.productsRepository.findByName(payload.nome);
-if (existing) {
-throw new Error("Produto já cadastrado");
-}
-
-    await this.productsRepository.create({
-      nome: payload.nome,
-      descricao: payload.descricao,
-      preco: payload.preco,
-      estoque: payload.estoque,
-      categoriaId: payload.categoriaId,
-      isDeleted: false
-    });
-
-}
-}
-
-4️⃣ REPOSITORY (Acesso ao Banco)
-
-Arquivo: ProductsRepository.ts
-
-Onde ocorre de fato:
-
-Conversão
-
-Inserção
-
-Query Drizzle ORM
-
-async create(data) {
-await db.insert(productsTable).values({
-nome: data.nome,
-descricao: data.descricao,
-preco: data.preco,
-estoque: data.estoque,
-categoriaId: data.categoriaId,
-isDeleted: false
-});
-}
-
-5️⃣ BANCO DE DADOS
-
-Query SQL equivalente:
-
-INSERT INTO "Product"
-("nome", "descricao", "preco", "estoque", "categoriaId", "is_deleted")
-VALUES ($1, $2, $3, $4, $5, false);
-
-🔄 Diagrama do Fluxo
-sequenceDiagram
-participant FE as Frontend
-participant CT as Controller
-participant UC as UseCase
-participant RP as Repository
-participant DB as Database
-
-    FE->>CT: POST /products
-    CT->>UC: execute(payload)
-    UC->>RP: create(data)
-    RP->>DB: INSERT INTO Product...
-    DB-->>RP: OK
-    RP-->>UC: OK
-    UC-->>CT: OK
-    CT-->>FE: 201 Created
-
-🧪 Testando no Insomnia / Postman
-POST http://localhost:3333/products
-
-Body:
-
-{
-"nome": "Monitor LG",
-"descricao": "24 polegadas",
-"preco": "799.90",
-"estoque": 15,
-"categoriaId": "UUID-DA-CATEGORIA"
-}
-
-Resposta:
-
-{
-"message": "Produto criado com sucesso"
-}
+```
