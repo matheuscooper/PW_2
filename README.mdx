@@ -1,13 +1,9 @@
 ---
 id: documentation
-title: Documentação — PW2 Shop
+title: Documentação — PW2
 ---
 
-# 🛒 Lojinha — Documentação Oficial
-
-Este documento explica **como executar a aplicação completa** (backend + frontend + PostgreSQL via Docker)  
-e descreve de forma clara o **fluxo de cadastro de produtos**, incluindo o que acontece em cada camada  
-(**controller → useCase → repository → banco**).
+# 🛒 Lojinha — Documentação
 
 ---
 
@@ -29,3 +25,31 @@ Toda a stack sobe com **um único comando Docker Compose**.
 git clone https://github.com/seu-repo/pw2.git
 cd pw2
 ```
+
+---
+
+# 🐳 2. Subir banco + backend + frontend
+
+No diretório raiz:
+
+sudo docker compose up -d --build
+
+Isso irá:
+
+Criar o PostgreSQL
+
+Subir o backend
+
+Subir o frontend
+
+Acessos:
+
+Frontend: http://localhost:3000
+
+Backend: http://localhost:3333
+
+---
+
+Para parar tudo:
+
+`sudo docker compose down `
