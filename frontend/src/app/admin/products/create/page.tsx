@@ -242,7 +242,7 @@ export default function ProductForm({ params }: { params: { id?: string } }) {
                     <CategoryDropdown
                       key={categories?.length || 0}
                       categories={categories ?? []}
-                      value={field.value}
+                      value={field.value ?? ""}
                       onChange={field.onChange}
                     />
 

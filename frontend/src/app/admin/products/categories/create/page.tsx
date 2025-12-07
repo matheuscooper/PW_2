@@ -29,7 +29,8 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const CategoryForm = () => {
-  const { id } = useParams();
+  const params = useParams();
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -38,7 +39,7 @@ const CategoryForm = () => {
 
   const { data: category, isLoading } = useQuery({
     queryKey: ["category", id],
-    queryFn: () => api.getCategory(id!),
+    queryFn: () => api.getCategory(Array.isArray(id) ? id[0] : id!),
     enabled: isEditing,
   });
 

@@ -1,6 +1,3 @@
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3333";
-
 export interface Category {
   id: string;
   nome: string;
@@ -29,7 +26,7 @@ export interface CreateProductDTO {
   preco: string;
   estoque?: number;
   categoriaId: string;
-  isDeleted: string;
+  isDeleted?: string;
 }
 
 export interface User {
@@ -93,6 +90,9 @@ export interface CreatePurchaseResponse {
   total: number;
   purchaseId: string;
 }
+
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3333";
 
 class ApiService {
   private baseURL: string;

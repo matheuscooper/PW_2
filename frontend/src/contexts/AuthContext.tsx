@@ -14,7 +14,7 @@ interface AuthContextType {
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   register: (
-    nome?: string,
+    nome: string,
     email: string,
     cpf: string,
     password: string,
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       // opcional: aplica token automaticamente no backend
-      api.setToken?.(storedToken);
+      (api as any).setToken?.(storedToken);
     }
 
     setLoaded(true);
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("token", response.token);
     localStorage.setItem("user", JSON.stringify(response.user));
 
-    api.setToken?.(response.token);
+    (api as any).setToken?.(response.token);
   };
 
   // ─── Register ────────────────────────────────────────────────

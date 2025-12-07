@@ -153,3 +153,12 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Hide scrollbar para carrossel */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

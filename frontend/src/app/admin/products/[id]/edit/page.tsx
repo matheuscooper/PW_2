@@ -137,6 +137,7 @@ const ProductForm = () => {
       preco: data.preco,
       estoque: data.estoque ? parseInt(data.estoque) : undefined,
       categoriaId: data.categoriaId,
+      isDeleted: product?.isDeleted ?? "0",
     };
 
     if (isEditMode) {

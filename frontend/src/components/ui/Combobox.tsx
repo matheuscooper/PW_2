@@ -5,7 +5,15 @@ import { Listbox, Transition } from "@headlessui/react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/libs/utils";
 
-export function CategoryDropdown({ categories, value, onChange }) {
+export function CategoryDropdown({
+  categories,
+  value,
+  onChange,
+}: {
+  categories: { id: string; nome: string }[];
+  value: string;
+  onChange: (value: string) => void;
+}) {
   console.log("📌 Categorias recebidas no DROPDOWN:", categories);
   return (
     <div className="w-full">

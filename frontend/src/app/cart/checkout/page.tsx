@@ -444,7 +444,10 @@ const Checkout = () => {
                           Qtd: {item.quantity}
                         </p>
                         <p className="text-sm font-semibold text-primary">
-                          R$ {formatBRL(item.product.preco * item.quantity)}
+                          R${" "}
+                          {formatBRL(
+                            Number(item.product.preco) * item.quantity
+                          )}
                         </p>
                       </div>
                     </div>

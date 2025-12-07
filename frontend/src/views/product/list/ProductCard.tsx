@@ -56,7 +56,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           </span>
 
           <p className="text-xs text-muted-foreground">
-            {product.estoque > 0
+            {Number(product.estoque) > 0
               ? `${product.estoque} em estoque`
               : "Fora de estoque"}
           </p>
